@@ -1,0 +1,34 @@
+# Configuration of the `standards` checks for this repository itself.
+
+[commits]
+types = ["feat", "fix", "perf", "refactor", "test", "docs", "build", "ci", "chore", "style", "revert"]
+scopes = ["cli", "template", "standards", "hooks", "ci", "deps", "release"]
+scope_required_for = ["feat", "fix", "perf", "refactor"]
+max_header_length = 72
+
+[branches]
+allowed = ["main"]
+extra_prefixes = ["dependabot/"]
+
+[doc_impact]
+watched = ["src/**", "template/**", "copier.yml", "pyproject.toml", ".pre-commit-config.yaml", ".github/workflows/**", "standards.toml"]
+
+[[doc_impact.rules]]
+paths = ["src/**"]
+docs = ["template/docs/standards/**", "README.md"]
+
+[[doc_impact.rules]]
+paths = ["template/.pre-commit-config.yaml", ".pre-commit-config.yaml"]
+docs = ["template/docs/standards/08-git-hooks.md"]
+
+[[doc_impact.rules]]
+paths = ["template/.github/workflows/**", ".github/workflows/**"]
+docs = ["template/docs/standards/09-ci-cd.md"]
+
+[[doc_impact.rules]]
+paths = ["template/pyproject.toml.jinja", "pyproject.toml"]
+docs = ["template/docs/standards/03-code-quality.md", "template/docs/standards/05-testing.md"]
+
+[[doc_impact.rules]]
+paths = ["template/**", "copier.yml", "standards.toml"]
+docs = ["template/docs/standards/**", "README.md"]

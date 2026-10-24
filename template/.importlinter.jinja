@@ -1,0 +1,13 @@
+# Import contracts (04-architecture). The project owns this file: declare its layers here,
+# top (may import everything below) to bottom (imports nothing internal).
+[importlinter]
+root_package = [[ package_name ]]
+include_external_packages = True
+
+[importlinter:contract:no-test-imports]
+name = Production code never imports test code
+type = forbidden
+source_modules = [[ package_name ]]
+forbidden_modules =
+    pytest
+    hypothesis

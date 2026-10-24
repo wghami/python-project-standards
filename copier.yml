@@ -1,0 +1,79 @@
+# Copier template for Python projects that follow these standards.
+# Render:  uvx copier copy --trust gh:wghami/python-project-standards <dir>
+# Update:  uvx copier update   (inside a rendered project)
+
+_min_copier_version: "9.5"
+_subdirectory: template
+_answers_file: .copier-answers.yml
+_envops:
+  block_start_string: "[%"
+  block_end_string: "%]"
+  variable_start_string: "[["
+  variable_end_string: "]]"
+  comment_start_string: "[#"
+  comment_end_string: "#]"
+  keep_trailing_newline: true
+
+# Files the project owns after the first render; updates never touch them.
+_skip_if_exists:
+  - README.md
+  - docs/index.md
+  - docs/standards/project/*.md
+  - planning/SPEC.md
+  - planning/ROADMAP.md
+  - planning/adr/0001-*.md
+  - src/**
+  - tests/**
+  - scripts/**
+  - .importlinter
+
+project_name:
+  type: str
+  help: Repository name (e.g. MyEnergieOptimizer)
+  validator: "[% if not project_name %]required[% endif %]"
+
+project_slug:
+  type: str
+  help: Distribution name on PyPI / in pyproject.toml
+  default: "[[ project_name | lower | replace('_', '-') | replace(' ', '-') ]]"
+
+package_name:
+  type: str
+  help: Import name of the package under src/
+  default: "[[ project_slug | replace('-', '_') ]]"
+  validator: "[% if not (package_name | regex_search('^[a-z][a-z0-9_]*$')) %]lower_snake_case only[% endif %]"
+
+description:
+  type: str
+  help: One-sentence description
+  default: ""
+
+author_name:
+  type: str
+  help: Author shown in pyproject.toml and LICENSE
+
+github_owner:
+  type: str
+  help: GitHub user or organisation that owns the repository
+
+python_version:
+  type: str
+  help: Python minor version (pinned in .python-version)
+  default: "3.12"
+  choices: ["3.12", "3.13", "3.14"]
+
+commit_scopes:
+  type: yaml
+  help: Allowed Conventional Commit scopes (a YAML list)
+  default: "[core, api, docs, standards, ci, deps, release]"
+
+mutation_min_score:
+  type: int
+  help: Minimum mutation score (percent) enforced nightly
+  default: 90
+
+# Post-render steps (need --trust): a git repository, a lockfile and installed hooks.
+_tasks:
+  - "[ -d .git ] || git init -q -b main"
+  - "uv lock --quiet"
+  - "uv run --frozen pre-commit install --install-hooks >/dev/null"

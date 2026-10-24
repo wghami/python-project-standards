@@ -1,0 +1,124 @@
+[build-system]
+requires = ["hatchling>=1.27", "hatch-vcs>=0.5"]
+build-backend = "hatchling.build"
+
+[project]
+name = "project-standards"
+dynamic = ["version"]
+description = "Binding engineering standards for Python projects: a Copier template plus the `standards` checker CLI that enforces them."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+authors = [{ name = "WGhami" }]
+requires-python = ">=3.12"
+dependencies = ["pyyaml>=6.0.2"]
+
+[project.scripts]
+standards = "project_standards.cli:main"
+
+[project.urls]
+Repository = "https://github.com/wghami/python-project-standards"
+
+[tool.hatch.version]
+source = "vcs"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/project_standards"]
+
+[tool.hatch.build.targets.sdist]
+exclude = ["/template", "/.github"]
+
+[tool.commitizen]
+name = "cz_conventional_commits"
+version_provider = "scm"
+tag_format = "v$version"
+major_version_zero = true
+update_changelog_on_bump = false
+
+[tool.ruff]
+line-length = 100
+target-version = "py312"
+src = ["src", "tests"]
+extend-exclude = ["template"]
+
+[tool.ruff.lint]
+select = ["ALL"]
+ignore = [
+    "COM812", # conflicts with the formatter
+    "CPY001", # licence is declared once in LICENSE, not per file
+    "D203",   # incompatible with D211 (no blank line before class docstring)
+    "D213",   # incompatible with D212 (summary on the first line)
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = [
+    "S101",    # pytest uses assert
+    "PLR2004", # literal expected values are the point of a test
+    "D101", "D102", "D103", # test names state the behaviour; module docstring still required
+    "S603", "S607", # tests drive the real git binary on temporary repositories
+]
+
+[tool.ruff.lint.mccabe]
+max-complexity = 8
+
+[tool.ruff.lint.pylint]
+max-args = 6
+max-statements = 50
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.flake8-tidy-imports]
+ban-relative-imports = "all"
+
+[tool.ruff.lint.flake8-tidy-imports.banned-api]
+"time.sleep".msg = "Inject time; never sleep (TW-5)."
+
+[tool.pyright]
+typeCheckingMode = "strict"
+pythonVersion = "3.12"
+include = ["src", "tests"]
+reportUnnecessaryTypeIgnoreComment = "error"
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+addopts = ["--strict-markers", "--strict-config", "-ra", "--disable-socket"]
+xfail_strict = true
+filterwarnings = ["error"]
+
+[tool.coverage.run]
+branch = true
+source_pkgs = ["project_standards"]
+
+[tool.coverage.report]
+fail_under = 100
+show_missing = true
+skip_covered = true
+exclude_also = ["if TYPE_CHECKING:", "@overload", "^\\s*\\.\\.\\.$", "assert_never\\("]
+
+[tool.mutmut]
+paths_to_mutate = ["src/project_standards/"]
+
+[tool.bandit]
+exclude_dirs = ["tests", "template"]
+
+[dependency-groups]
+dev = [
+    "actionlint-py>=1.7.12.25",
+    "bandit>=1.9.4",
+    "commitizen>=4.19.3",
+    "copier>=9.19.1",
+    "interrogate>=1.7.0",
+    "mutmut>=3.8.0",
+    "pip-audit>=2.10.1",
+    "pre-commit>=4.7.0",
+    "pyright[nodejs]>=1.1.414",
+    "pytest>=9.1.1",
+    "pytest-cov>=7.1.0",
+    "pytest-randomly>=5.0.0",
+    "pytest-socket>=0.8.1",
+    "ruff>=0.17.2",
+    "types-pyyaml>=6.0.12.20260906",
+    "zizmor>=1.31.1",
+]
