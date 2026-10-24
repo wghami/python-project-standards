@@ -109,6 +109,7 @@ dev = [
     "bandit>=1.9.4",
     "commitizen>=4.19.3",
     "copier>=9.19.1",
+    "cyclonedx-bom>=7.5.0",
     "interrogate>=1.7.0",
     "mutmut>=3.8.0",
     "pip-audit>=2.10.1",
