@@ -18,7 +18,7 @@ ANSWERS = {
     "project_name": "Demo Project",
     "author_name": "Test Author",
     "github_owner": "wghami",
-    "description": "A demo.",
+    "description": "A demo. " + "x" * 200,
     "commit_scopes": ["core", "docs"],
 }
 
@@ -79,3 +79,10 @@ def test_rendered_files_have_one_trailing_newline(rendered: Path) -> None:
         if path.is_file() and path.suffix in {".toml", ".yml", ".yaml", ".md", ".py", ""}:
             text = path.read_text()
             assert not text or (text.endswith("\n") and not text.endswith("\n\n")), path
+
+
+def test_rendered_python_respects_the_line_length(rendered: Path) -> None:
+    long_description = "x" * 200  # descriptions can be long; code lines cannot
+    assert long_description not in (rendered / "src" / "demo_project" / "__init__.py").read_text()
+    for path in rendered.rglob("*.py"):
+        assert all(len(line) <= 100 for line in path.read_text().splitlines()), path
