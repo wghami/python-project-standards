@@ -71,7 +71,7 @@ update_changelog_on_bump = false
 [tool.ruff]
 line-length = 100
 target-version = "py[[ python_version | replace('.', '') ]]"
-src = ["src", "tests", "tools", "scripts"]
+src = [".", "src"] # tools and scripts are first-party packages at the root
 
 [tool.ruff.lint]
 select = ["ALL"]
