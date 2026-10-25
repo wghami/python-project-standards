@@ -9,7 +9,9 @@ to the code, and checks that some test fails for each.
 - **When:** nightly, and on PRs labelled `mutation` (`nightly.yml`).
 - **Gate:** `standards check-mutation-score mutants/mutmut-cicd-stats.json --min N`, with N chosen
   at render time (default 90). Killed and timed-out mutants count as caught; survivors, untested
-  and suspicious mutants count against the score. No mutants at all is not a failure.
+  and suspicious mutants count against the score. No mutants at all is not a failure, but mutants
+  that were **never evaluated** are: it means the baseline test run failed under mutmut (often a
+  file the tests read that `also_copy` does not list), and the badge then shows "not measured".
 - **On failure:** a scheduled failure opens a `release-blocker` issue, and releases stop until it
   is closed (CI-7).
 - **Badge:** the measured score is published every night, pass or fail ([08](08-badges-and-gates.md)).

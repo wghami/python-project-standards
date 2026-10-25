@@ -83,6 +83,14 @@ def measure(metric: str, source: Path) -> dict[str, object]:
         return endpoint("docstrings", docstring_percent(text))
     if metric == "mutation":
         stats = mapping(json.loads(text), str(source))
+        counts = {k: v for k, v in stats.items() if isinstance(v, int)}
+        if mutation.score(counts) is None and counts.get("total", 0) > 0:
+            return {
+                "schemaVersion": 1,
+                "label": "mutation",
+                "message": "not measured",
+                "color": "red",
+            }
         return endpoint(
             "mutation", mutation.score({k: v for k, v in stats.items() if isinstance(v, int)})
         )
