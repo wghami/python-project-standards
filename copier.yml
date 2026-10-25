@@ -76,10 +76,16 @@ mutation_min_score:
   help: Minimum mutation score (percent) enforced nightly
   default: 90
 
-# Post-render steps (need --trust): a git repository, a lockfile, installed hooks, README blocks.
+# Post-render steps (need --trust), on the FIRST render only: a git repository, a lockfile,
+# installed hooks and the README blocks. During `copier update` they would also run inside
+# Copier's internal renders and turn their generated files into conflicts (issue #18); after an
+# update, the uv-lock hook asks for `uv lock` and the readme hook regenerates the README blocks.
 _tasks:
-  - "[ -d .git ] || git init -q -b main"
-  - "uv lock --quiet"
-  - "uv run --frozen pre-commit install --install-hooks >/dev/null"
-  # A project rendered before DOC-10 has no README markers yet: say so, do not abort the update.
-  - "uv run --frozen standards readme --write || echo 'Add the README marker blocks (DOC-10): see docs/08-badges-and-gates.md'"
+  - command: "[ -d .git ] || git init -q -b main"
+    when: "[[ _copier_operation == 'copy' ]]"
+  - command: "uv lock --quiet"
+    when: "[[ _copier_operation == 'copy' ]]"
+  - command: "uv run --frozen pre-commit install --install-hooks >/dev/null"
+    when: "[[ _copier_operation == 'copy' ]]"
+  - command: "uv run --frozen standards readme --write"
+    when: "[[ _copier_operation == 'copy' ]]"

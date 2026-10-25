@@ -25,6 +25,15 @@ uvx copier update --trust                 # to the latest release
 uvx copier update --trust --vcs-ref v0.2.0  # to a given release
 ```
 
-Do it on a `build/standards-vX.Y.Z` branch, then open a PR. The answers and the template release
+Do it on a `build/standards-vX.Y.Z` branch, then run `uv lock` (the post-render tasks only run
+on the first render, so the update never conflicts in `uv.lock`) and open a PR. The answers and the template release
 are recorded in `.copier-answers.yml`. `pyproject.toml` pins the `standards` CLI to the **same
 commit** as the template, so documents and checks always come from one release.
+
+**Updating from v0.4.2 or earlier, once.** Those versions ran their post-render tasks inside
+Copier's replay of the old version, so the first update to a later version reports `uv.lock` as
+deleted. Restore it and re-lock:
+
+```bash
+git checkout HEAD -- uv.lock && uv lock
+```
