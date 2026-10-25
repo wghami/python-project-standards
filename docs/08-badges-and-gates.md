@@ -49,3 +49,9 @@ a measurement.
 
 `scorecard.yml` runs weekly, on every push to `main`, and when branch protection changes. It
 publishes the results for the badge and uploads them to code scanning.
+
+## Existing projects
+
+A project rendered before DOC-10 has no marker blocks.  says so instead of failing.
+Add the two blocks shown above wherever they belong in the README, then run
+✓ readme. Until then the  hook fails the push.
