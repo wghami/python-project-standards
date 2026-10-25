@@ -25,6 +25,7 @@ uvx copier update --trust                 # to the latest release
 uvx copier update --trust --vcs-ref v0.2.0  # to a given release
 ```
 
-Do it on a `build/standards-vX.Y.Z` branch, then open a PR. The answers and the template release
+Do it on a `build/standards-vX.Y.Z` branch, then run `uv lock` (the post-render tasks only run
+on the first render, so the update never conflicts in `uv.lock`) and open a PR. The answers and the template release
 are recorded in `.copier-answers.yml`. `pyproject.toml` pins the `standards` CLI to the **same
 commit** as the template, so documents and checks always come from one release.
