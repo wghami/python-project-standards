@@ -9,8 +9,8 @@ delimiters, so GitHub Actions expressions (`${{ … }}`) pass through untouched.
 | Owned by the **template** (updated by `copier update`) | Owned by the **project** (rendered once, never touched again) |
 |---|---|
 | `docs/standards/*.md` (the generic rules) | `docs/standards/project/` (project rules) |
-| `.pre-commit-config.yaml`, `.github/` (workflows, scripts, PR template) | `README.md` (but its badge and gates blocks are generated, see [08](08-badges-and-gates.md)) |
-| `pyproject.toml` tool configuration, `standards.toml`, `mkdocs.yml` | `src/`, `tests/`, `scripts/` |
+| `.pre-commit-config.yaml`, `.github/` (workflows, scripts, PR template), `mkdocs.yml` (project pages need no nav edit) | `README.md` (but its badge and gates blocks are generated, see [08](08-badges-and-gates.md)) |
+| `pyproject.toml` tool configuration, `standards.toml` | `src/`, `tests/`, `scripts/` |
 | `AGENTS.md`, `CLAUDE.md`, `SECURITY.md`, `LICENSE` | `planning/SPEC.md`, `planning/ROADMAP.md`, ADR 0001, `planning/standards-feedback.md` |
 | | `.importlinter` (the project's own layers) |
 

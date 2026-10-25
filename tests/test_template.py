@@ -86,3 +86,18 @@ def test_rendered_python_respects_the_line_length(rendered: Path) -> None:
     assert long_description not in (rendered / "src" / "demo_project" / "__init__.py").read_text()
     for path in rendered.rglob("*.py"):
         assert all(len(line) <= 100 for line in path.read_text().splitlines()), path
+
+
+def test_strict_docs_builds_are_never_quiet(rendered: Path) -> None:
+    """`--quiet` hides the warnings that `--strict` counts, which silently disables the gate."""
+    for name in (rendered / ".pre-commit-config.yaml", ROOT / ".pre-commit-config.yaml"):
+        config = name.read_text()
+        assert "mkdocs build --strict" in config
+        commands = [line.split("#", 1)[0] for line in config.splitlines() if "mkdocs build" in line]
+        assert commands
+        assert not any(f" {flag} " in f"{c} " for c in commands for flag in ("--quiet", "-q"))
+
+
+def test_project_standards_pages_need_no_nav_entry(rendered: Path) -> None:
+    config = yaml.safe_load((rendered / "mkdocs.yml").read_text().replace("!!python", "#"))
+    assert "/standards/project/" in config["not_in_nav"]
