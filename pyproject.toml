@@ -19,6 +19,9 @@ standards = "project_standards.cli:main"
 [project.urls]
 Repository = "https://github.com/wghami/python-project-standards"
 
+[tool.uv]
+default-groups = ["dev", "docs"]
+
 [tool.hatch.version]
 source = "vcs"
 
