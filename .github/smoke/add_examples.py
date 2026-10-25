@@ -34,6 +34,24 @@ readme.write_text(
 )
 
 (
+    root / "src" / package / "example.py"
+).write_text('''"""A submodule, to prove the API reference documents submodules (DOC-3)."""
+
+
+def smoke_reference_marker() -> int:
+    """Return 42; the smoke job looks for this function in the built reference."""
+    return 42
+''')
+(root / "tests" / "unit" / "test_example.py").write_text(f'''"""The example submodule is covered."""
+
+from {package}.example import smoke_reference_marker
+
+
+def test_marker() -> None:
+    assert smoke_reference_marker() == 42
+''')
+
+(
     root / "scripts" / "show_version.py"
 ).write_text(f'''"""Print the installed version of the package (an example script)."""
 

@@ -118,6 +118,11 @@ jobs:
         run: |
           uv run pre-commit run --all-files --hook-stage pre-commit --show-diff-on-failure
           uv run pre-commit run --all-files --hook-stage pre-push --show-diff-on-failure
+      - name: The built API reference documents submodules (DOC-3)
+        working-directory: ${{ runner.temp }}/smoke
+        run: |
+          uv run mkdocs build --strict --quiet
+          grep -q "smoke_reference_marker" site/reference/index.html
 
   secrets:
     name: secret scan (full history)
