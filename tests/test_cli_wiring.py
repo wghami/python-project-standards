@@ -201,3 +201,8 @@ def test_malformed_yaml_is_reported_not_raised(
     project.write(".pre-commit-config.yaml", "repos: [\n")
     assert run(project, "check-hook-parity") == 1
     assert capsys.readouterr().err.startswith("✗ ParserError: ")
+
+
+def test_breaking_pr_titles_need_no_footer(project: Repo) -> None:
+    assert run(project, "check-pr-title", "feat(core)!: rename the package") == 0
+    assert run(project, "check-pr-title", "feat(core)!: Rename the package") == 1

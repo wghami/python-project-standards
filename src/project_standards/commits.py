@@ -64,8 +64,14 @@ def _header_errors(header: Header, config: Config) -> list[str]:
     return errors
 
 
-def check_message(message: str, config: Config, *, allow_autosquash: bool = False) -> list[str]:
-    """Return every rule the commit message breaks (empty list = valid)."""
+def check_message(
+    message: str, config: Config, *, allow_autosquash: bool = False, header_only: bool = False
+) -> list[str]:
+    """Return every rule the commit message breaks (empty list = valid).
+
+    ``header_only`` checks a PR title: it has no body, so the breaking-change footer (COM-2) is
+    checked on the commits instead, whose messages become the squash body (BR-4).
+    """
     text = clean(message)
     if not text:
         return ["the commit message is empty"]
@@ -84,7 +90,7 @@ def check_message(message: str, config: Config, *, allow_autosquash: bool = Fals
         )
     if rest and not rest.startswith("\n"):
         errors.append("separate the header from the body with one blank line")
-    if header.breaking and _BREAKING.search(text) is None:
+    if header.breaking and not header_only and _BREAKING.search(text) is None:
         errors.append("'!' needs a 'BREAKING CHANGE: <what breaks>' footer (COM-2)")
     return errors
 

@@ -306,3 +306,11 @@ def test_mutants_that_were_never_evaluated_fail_the_gate(tmp_path: Path) -> None
     ]
     stats.write_text(json.dumps({"killed": 0, "survived": 0, "total": 0}))
     assert mutation.check(stats, 90) == []
+
+
+def test_header_only_skips_the_footer_rule_only() -> None:
+    assert commits.check_message("feat(core)!: x", CONFIG, header_only=True) == []
+    assert commits.check_message("feat(core)!: X.", CONFIG, header_only=True) == [
+        "the summary must not end with a period",
+        "the summary starts with a lower-case imperative verb ('add', not 'Add')",
+    ]
