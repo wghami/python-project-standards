@@ -85,3 +85,7 @@ docs = ["docs/15-docs-deployment.md", "docs/README.md"]
 [[doc_impact.rules]]
 paths = ["src/project_standards/site.py"]
 docs = ["docs/15-docs-deployment.md"]
+
+[[doc_impact.rules]]
+paths = ["src/project_standards/notebooks.py", "src/project_standards/user_scripts.py"]
+docs = ["docs/16-notebooks-and-scripts.md"]

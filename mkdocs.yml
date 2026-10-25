@@ -50,6 +50,7 @@ nav:
       - 13-standards-feedback.md
       - 14-configuration.md
       - 15-docs-deployment.md
+      - 16-notebooks-and-scripts.md
   - Standards:
       - standards/README.md
       - standards/01-repository-layout.md

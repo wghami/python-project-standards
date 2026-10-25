@@ -29,6 +29,7 @@ The binding rules themselves live in
 | 13 | [Standards feedback](13-standards-feedback.md) | How friction in a project becomes a better standard | — |
 | 14 | [Configuration reference](14-configuration.md) | Every key of `standards.toml` | — |
 | 15 | [Documentation deployment](15-docs-deployment.md) | Docs built strictly, deployed automatically, verified live | `standards check-site` |
+| 16 | [Notebooks and scripts](16-notebooks-and-scripts.md) | Two levels of use beyond the reference, both kept runnable | `standards check-notebooks`, `standards check-scripts` |
 
 ## The idea in one paragraph
 

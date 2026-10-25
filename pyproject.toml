@@ -61,6 +61,8 @@ ignore = [
     "S603", "S607", # tests drive the real git binary on temporary repositories
 ]
 
+".github/**" = ["INP001"] # standalone CI helpers run by path, not packages
+
 [tool.ruff.lint.mccabe]
 max-complexity = 8
 

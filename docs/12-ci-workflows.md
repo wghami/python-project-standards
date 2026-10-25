@@ -20,3 +20,8 @@ Rules: CI-1…11, SEC-7…13.
 
 The repository rulesets make every `ci.yml` job and CodeQL **required checks** on `main`, with no
 bypass, and make release tags immutable.
+
+**This repository's own CI** adds a `smoke` job: it renders the template from the PR, adds an
+example notebook (executed) and an example script with its smoke test
+(`.github/smoke/add_examples.py`), a project standards page outside the nav, then runs every hook
+stage of the rendered project. A template change that breaks a fresh project fails the PR.
