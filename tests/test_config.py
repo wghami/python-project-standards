@@ -51,14 +51,27 @@ def test_defaults_include_the_conventional_types() -> None:
 @pytest.mark.parametrize(
     ("text", "message"),
     [
-        ("[commits]\ntypes = 'feat'", "'types' must be a list of strings"),
-        ("[commits]\ntypes = ['feat', 1]", "'types' must be a list of strings"),
-        ("commits = 3", r"\[commits\] must be a table"),
-        ("[doc_impact]\nrules = 3", "must be an array of tables"),
-        ("[commits]\nmax_header_length = 'long'", "must be an integer"),
+        ("[commits]\ntypes = 'feat'", "standards.toml: 'types' must be a list"),
+        ("[commits]\ntypes = ['feat', 1]", "standards.toml: 'types' must be a list of strings"),
+        ("commits = 3", "standards.toml: [commits] must be a mapping"),
+        ("[doc_impact]\nrules = 3", "standards.toml: [[doc_impact.rules]] must be a list"),
+        (
+            "[doc_impact]\nrules = [3]",
+            "standards.toml: [[doc_impact.rules]] entry must be a mapping",
+        ),
+        (
+            "[commits]\nmax_header_length = 'long'",
+            "standards.toml: 'max_header_length' must be an integer",
+        ),
     ],
 )
 def test_malformed_values_are_refused(tmp_path: Path, text: str, message: str) -> None:
     (tmp_path / "standards.toml").write_text(text)
-    with pytest.raises(TypeError, match=message):
+    with pytest.raises(TypeError) as error:
         load(tmp_path)
+    assert str(error.value) == message
+
+
+def test_a_rule_without_paths_or_docs_has_none(tmp_path: Path) -> None:
+    (tmp_path / "standards.toml").write_text("[[doc_impact.rules]]\n")
+    assert load(tmp_path).doc_rules == (DocRule(paths=(), docs=()),)

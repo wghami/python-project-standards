@@ -2,7 +2,8 @@
 
 import json
 from pathlib import Path
-from typing import cast
+
+from project_standards._typed import mapping
 
 _KILLED = ("killed", "timeout", "segfault")
 _ALIVE = ("survived", "no_tests", "suspicious")
@@ -17,7 +18,8 @@ def score(stats: dict[str, int]) -> float | None:
 
 def check(stats_path: Path, minimum: float) -> list[str]:
     """Fail when the mutation score is below ``minimum`` percent."""
-    stats = cast("dict[str, int]", json.loads(stats_path.read_text()))
+    raw = mapping(json.loads(stats_path.read_text()), str(stats_path))
+    stats = {key: value for key, value in raw.items() if isinstance(value, int)}
     value = score(stats)
     if value is None or value >= minimum:
         return []

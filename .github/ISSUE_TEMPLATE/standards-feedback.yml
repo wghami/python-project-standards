@@ -1,0 +1,40 @@
+name: Standards feedback
+description: A rule got in the way, was unclear or wrong, or is missing (STD-7).
+title: "feedback(<rule ID>): <one-line summary>"
+labels: [standards-feedback]
+body:
+  - type: input
+    id: rule
+    attributes:
+      label: Rule
+      description: The rule ID (e.g. DOC-5), or "missing rule".
+    validations:
+      required: true
+  - type: input
+    id: project
+    attributes:
+      label: Project and template release
+      description: Where it happened, and the `_commit` from `.copier-answers.yml`.
+    validations:
+      required: true
+  - type: textarea
+    id: context
+    attributes:
+      label: Context
+      description: What you were doing when the rule got in the way, or was missing.
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: Unclear, too strict, too weak, wrong tool, false positive, or cost.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposal
+      description: The change to the document and/or its enforcement.
+    validations:
+      required: true

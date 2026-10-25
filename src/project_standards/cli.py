@@ -1,12 +1,14 @@
 """``standards``: the command line that hooks and CI call."""
 
 import argparse
+import json
 import os
 import sys
 from collections.abc import Callable, Sequence
 from pathlib import Path
 
 from project_standards import (
+    badges,
     branches,
     commits,
     doc_impact,
@@ -14,6 +16,7 @@ from project_standards import (
     hooks,
     mutation,
     parity,
+    readme,
     standards_docs,
     suppressions,
     versioning,
@@ -94,6 +97,21 @@ def _drift(args: argparse.Namespace) -> list[str]:
     return drift.check(_root(args) / args.answers, Git(_root(args)))
 
 
+def _readme(args: argparse.Namespace) -> list[str]:
+    config = load(_root(args)).readme
+    if not config.repository:
+        return ['standards.toml: set [readme] repository = "owner/name"']
+    return readme.check(readme.Project(root=_root(args), readme=config), write=args.write)
+
+
+def _badge(args: argparse.Namespace) -> list[str]:
+    document = badges.measure(args.metric, _root(args) / args.source)
+    out = _root(args) / args.out
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(document, indent=2) + "\n", encoding="utf-8")
+    return []
+
+
 def _hooks(args: argparse.Namespace) -> list[str]:
     return hooks.check(Git(_root(args)))
 
@@ -136,6 +154,13 @@ def _build() -> tuple[argparse.ArgumentParser, tuple[str, ...]]:
         "--answers", default=".copier-answers.yml"
     )
     add("check-hooks-installed", _hooks, "git hooks are installed")
+    add("readme", _readme, "regenerate (or check) README badges and gates").add_argument(
+        "--write", action="store_true", help="rewrite README.md instead of failing when stale"
+    )
+    badge = add("badge", _badge, "write a shields.io badge from a gate's report")
+    badge.add_argument("metric", choices=["coverage", "docstrings", "mutation"])
+    badge.add_argument("source", help="coverage.xml, interrogate output or mutmut stats")
+    badge.add_argument("--out", required=True, help="where to write the badge JSON")
     return parser, tuple(sub.choices)
 
 

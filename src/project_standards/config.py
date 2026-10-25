@@ -3,7 +3,8 @@
 import tomllib
 from dataclasses import dataclass, field
 from pathlib import Path
-from typing import cast
+
+from project_standards._typed import mapping, sequence, strings, text
 
 DEFAULT_TYPES = (
     "feat",
@@ -29,6 +30,24 @@ class DocRule:
 
 
 @dataclass(frozen=True, slots=True, kw_only=True)
+class Readme:
+    """Where the README badges point (DOC-10)."""
+
+    repository: str = ""
+    template_repository: str = "wghami/python-project-standards"
+    badges_branch: str = "badges"
+    standards_docs: str = "docs/standards"
+    skip_jobs: tuple[str, ...] = (
+        "pre-commit-stage",
+        "pre-push-stage",
+        "release",
+        "pages",
+        "badges",
+        "report",
+    )
+
+
+@dataclass(frozen=True, slots=True, kw_only=True)
 class Config:
     """Settings for every check, read from ``standards.toml``."""
 
@@ -41,35 +60,34 @@ class Config:
     watched: tuple[str, ...] = ()
     doc_rules: tuple[DocRule, ...] = field(default=())
     releasing_types: tuple[str, ...] = ("feat", "fix", "perf")
+    readme: Readme = field(default_factory=Readme)
 
 
 def _strings(table: dict[str, object], key: str, default: tuple[str, ...]) -> tuple[str, ...]:
     value = table.get(key)
-    if value is None:
-        return default
-    items = cast("list[object]", value) if isinstance(value, list) else None
-    if items is None or not all(isinstance(item, str) for item in items):
-        msg = f"standards.toml: '{key}' must be a list of strings"
-        raise TypeError(msg)
-    return tuple(cast("list[str]", items))
-
-
-def _table(data: dict[str, object], key: str) -> dict[str, object]:
-    value = data.get(key, {})
-    if not isinstance(value, dict):
-        msg = f"standards.toml: [{key}] must be a table"
-        raise TypeError(msg)
-    return cast("dict[str, object]", value)
+    return default if value is None else tuple(strings(value, f"standards.toml: '{key}'"))
 
 
 def _rules(impact: dict[str, object]) -> tuple[DocRule, ...]:
-    raw = impact.get("rules", [])
-    if not isinstance(raw, list):
-        msg = "standards.toml: [[doc_impact.rules]] must be an array of tables"
-        raise TypeError(msg)
-    tables = cast("list[dict[str, object]]", raw)
+    tables = sequence(impact.get("rules", []), "standards.toml: [[doc_impact.rules]]")
     return tuple(
-        DocRule(paths=_strings(t, "paths", ()), docs=_strings(t, "docs", ())) for t in tables
+        DocRule(paths=_strings(t, "paths", ()), docs=_strings(t, "docs", ()))
+        for t in (mapping(raw, "standards.toml: [[doc_impact.rules]] entry") for raw in tables)
+    )
+
+
+def _text(table: dict[str, object], key: str, default: str) -> str:
+    return text(table.get(key, default), f"standards.toml: '{key}'")
+
+
+def _readme(table: dict[str, object]) -> Readme:
+    defaults = Readme()
+    return Readme(
+        repository=_text(table, "repository", defaults.repository),
+        template_repository=_text(table, "template_repository", defaults.template_repository),
+        badges_branch=_text(table, "badges_branch", defaults.badges_branch),
+        standards_docs=_text(table, "standards_docs", defaults.standards_docs),
+        skip_jobs=_strings(table, "skip_jobs", defaults.skip_jobs),
     )
 
 
@@ -77,7 +95,10 @@ def load(root: Path) -> Config:
     """Read ``standards.toml`` from ``root``; missing file means defaults."""
     path = root / "standards.toml"
     data: dict[str, object] = tomllib.loads(path.read_text()) if path.exists() else {}
-    commits, branches, impact = (_table(data, k) for k in ("commits", "branches", "doc_impact"))
+    commits, branches, impact, readme = (
+        mapping(data.get(k, {}), f"standards.toml: [{k}]")
+        for k in ("commits", "branches", "doc_impact", "readme")
+    )
     rules = _rules(impact)
     max_len = commits.get("max_header_length", 72)
     if not isinstance(max_len, int):
@@ -95,4 +116,5 @@ def load(root: Path) -> Config:
         watched=_strings(impact, "watched", ()),
         doc_rules=rules,
         releasing_types=_strings(commits, "releasing_types", ("feat", "fix", "perf")),
+        readme=_readme(readme),
     )
