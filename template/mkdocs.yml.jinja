@@ -3,6 +3,10 @@ site_description: [[ description ]]
 site_url: https://[[ github_owner | lower ]].github.io/[[ project_name ]]/
 repo_url: https://github.com/[[ github_owner ]]/[[ project_name ]]
 strict: true
+# Project standards pages are linked from standards/project/README.md, not listed in the nav,
+# so projects never edit this template-managed file for them.
+not_in_nav: |
+  /standards/project/
 
 theme:
   name: material

@@ -12,6 +12,8 @@ to the code, and checks that some test fails for each.
   and suspicious mutants count against the score. No mutants at all is not a failure, but mutants
   that were **never evaluated** are: it means the baseline test run failed under mutmut (often a
   file the tests read that `also_copy` does not list), and the badge then shows "not measured".
+  A project with no function yet (only module-level code) has nothing to mutate: mutmut stops
+  early, and the workflow records zero mutants instead of failing.
 - **On failure:** a scheduled failure opens a `release-blocker` issue, and releases stop until it
   is closed (CI-7).
 - **Badge:** the measured score is published every night, pass or fail ([08](08-badges-and-gates.md)).

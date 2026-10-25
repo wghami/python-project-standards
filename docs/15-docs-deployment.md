@@ -6,7 +6,7 @@ Documentation is tested like code, before **and** after it is deployed.
 
 | Stage | Check |
 |---|---|
-| 💻 push / ☁️ CI | `mkdocs build --strict` (the `docs-build` hook): any warning fails, including a broken internal link or anchor, or a page missing from the navigation |
+| 💻 push / ☁️ CI | `mkdocs build --strict` (the `docs-build` hook, deliberately **without** `--quiet`, which would hide the warnings `--strict` counts): any warning fails, including a broken internal link or anchor, or a page missing from the navigation. Project standards pages are exempt from the navigation (`not_in_nav`) and are linked from `standards/project/README.md` instead |
 | 💻 push / ☁️ CI | every Python code block in the docs is executed (pytest-markdown-docs) |
 | 💻 push / ☁️ CI | docstrings at 100 %; the API reference is generated from them at build time |
 | ☁️ `main` | the `pages` job builds the site, writes `build.json` with the commit, deploys to GitHub Pages, then runs `standards check-site` against the **live** URL |

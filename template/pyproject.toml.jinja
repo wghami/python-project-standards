@@ -141,7 +141,7 @@ skip_covered = true
 exclude_also = ["if TYPE_CHECKING:", "@overload", "^\\s*\\.\\.\\.$", "assert_never\\("]
 
 [tool.mutmut]
-paths_to_mutate = ["src/[[ package_name ]]/"]
+source_paths = ["src/[[ package_name ]]/"]
 also_copy = ["docs", "README.md", "mkdocs.yml", "scripts"]  # the tests read them too
 
 [tool.bandit]
