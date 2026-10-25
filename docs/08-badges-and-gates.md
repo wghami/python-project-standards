@@ -39,7 +39,7 @@ report:
 | `docstrings` | interrogate output (`actual: N%`) |
 | `mutation` | `mutants/mutmut-cicd-stats.json` |
 
-Only a perfect score is bright green. The `badges` job (coverage and docstrings, on every push to
+Only a perfect score is bright green. A mutation run that evaluated nothing (a failing baseline) is shown as a red **"not measured"**, never as "no mutants yet". The `badges` job (coverage and docstrings, on every push to
 `main`) and the nightly mutation job publish these files to an orphan **`badges`** branch, with
 `.github/scripts/publish-badges.sh`. `main` and its history are never touched. The mutation badge
 is published whether the gate passes or fails, because a badge that only shows good news is not

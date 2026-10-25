@@ -96,3 +96,15 @@ def test_measure_each_metric(tmp_path: Path) -> None:
         ValueError, match=r"^unknown metric 'speed' \(coverage, docstrings, mutation\)$"
     ):
         measure("speed", tmp_path / "doc.txt")
+
+
+def test_unevaluated_mutants_are_shown_as_not_measured(tmp_path: Path) -> None:
+    (tmp_path / "s.json").write_text(json.dumps({"killed": 0, "total": 12}))
+    assert measure("mutation", tmp_path / "s.json") == {
+        "schemaVersion": 1,
+        "label": "mutation",
+        "message": "not measured",
+        "color": "red",
+    }
+    (tmp_path / "s.json").write_text(json.dumps({"total": 0}))
+    assert measure("mutation", tmp_path / "s.json")["message"] == "no mutants yet"

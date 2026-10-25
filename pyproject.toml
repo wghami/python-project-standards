@@ -102,7 +102,7 @@ exclude_also = ["if TYPE_CHECKING:", "@overload", "^\\s*\\.\\.\\.$", "assert_nev
 
 [tool.mutmut]
 paths_to_mutate = ["src/project_standards/"]
-also_copy = ["template", "copier.yml"]
+also_copy = ["template", "copier.yml", "docs", "README.md", "mkdocs.yml", "LICENSE", ".pre-commit-config.yaml", "standards.toml"]
 
 [tool.bandit]
 exclude_dirs = ["tests", "template"]

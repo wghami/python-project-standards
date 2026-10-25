@@ -293,3 +293,16 @@ def test_binary_hooks_are_read_without_crashing(repo: Repo) -> None:
     for stage in hooks.STAGES:
         (hooks_dir / stage).write_bytes(b"\xff\xfe pre-commit")
     assert hooks.check(repo.git) == []
+
+
+def test_mutants_that_were_never_evaluated_fail_the_gate(tmp_path: Path) -> None:
+    stats = tmp_path / "s.json"
+    stats.write_text(json.dumps({"killed": 0, "survived": 0, "total": 1474}))
+    assert mutation.check(stats, 90) == [
+        (
+            "mutmut evaluated none of the 1474 mutants: the baseline test run failed "
+            "(see the `mutmut run` output)"
+        )
+    ]
+    stats.write_text(json.dumps({"killed": 0, "survived": 0, "total": 0}))
+    assert mutation.check(stats, 90) == []
