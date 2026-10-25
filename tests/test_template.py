@@ -101,3 +101,9 @@ def test_strict_docs_builds_are_never_quiet(rendered: Path) -> None:
 def test_project_standards_pages_need_no_nav_entry(rendered: Path) -> None:
     config = yaml.safe_load((rendered / "mkdocs.yml").read_text().replace("!!python", "#"))
     assert "/standards/project/" in config["not_in_nav"]
+
+
+def test_personal_data_and_caches_are_ignored(rendered: Path) -> None:
+    ignored = (rendered / ".gitignore").read_text().splitlines()
+    assert "private/" in ignored
+    assert ".cache/" in ignored
