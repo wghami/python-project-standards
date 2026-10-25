@@ -2,13 +2,14 @@
 
 import re
 from pathlib import Path
-from typing import cast
 
 import yaml
 
 from project_standards._git import Git
+from project_standards._typed import mapping, text
 
 _VERSION = re.compile(r"^v?(\d+)\.(\d+)\.(\d+)")
+_RELEASE_REF = re.compile(r"refs/tags/v(\d+)\.(\d+)\.(\d+)")
 
 
 def repo_url(src: str) -> str:
@@ -25,24 +26,31 @@ def _version(text: str) -> tuple[int, int, int] | None:
 
 def check(answers_path: Path, git: Git) -> list[str]:
     """Compare the template release a project was rendered from with the newest one."""
-    answers = cast("dict[str, str]", yaml.safe_load(answers_path.read_text()))
-    current = _version(answers.get("_commit", ""))
+    answers = mapping(yaml.safe_load(answers_path.read_text()), str(answers_path))
+    commit = str(answers.get("_commit", ""))
+    current = _version(commit)
     if current is None:
         return [
             (
-                f"{answers_path}: _commit '{answers.get('_commit')}' is not a release tag; "
+                f"{answers_path}: _commit '{commit}' is not a release tag; "
                 "update from a tagged template release"
             )
         ]
-    tags = git.lines("ls-remote", "--tags", "--refs", repo_url(answers["_src_path"]))
-    released = [v for line in tags if (v := _version(line.rsplit("/", 1)[-1])) is not None]
+    tags = git.lines(
+        "ls-remote", "--tags", "--refs", repo_url(text(answers.get("_src_path"), "_src_path"))
+    )
+    released = [
+        (int(m[1]), int(m[2]), int(m[3]))
+        for line in tags
+        if (m := _RELEASE_REF.fullmatch(line.rsplit("\t", 1)[-1])) is not None
+    ]
     latest = max(released, default=current)
     if latest > current:
         shown = ".".join(map(str, latest))
         return [
             (
                 f"standards template v{shown} is available (this project uses "
-                f"{answers['_commit']}); run `copier update`"
+                f"{commit}); run `copier update`"
             )
         ]
     return []

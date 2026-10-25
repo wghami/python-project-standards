@@ -4,8 +4,6 @@ import re
 
 from project_standards.config import Config
 
-_TOPIC = re.compile(r"^[a-z0-9][a-z0-9._-]*$")
-
 
 def check_branch(name: str, config: Config) -> list[str]:
     """Return the problems with a branch name (empty list = valid).
@@ -16,8 +14,8 @@ def check_branch(name: str, config: Config) -> list[str]:
         return []
     if any(name.startswith(prefix) for prefix in config.extra_branch_prefixes):
         return []
-    kind, slash, topic = name.partition("/")
-    if slash and kind in config.types and _TOPIC.match(topic):
+    kinds = "|".join(map(re.escape, config.types))
+    if re.fullmatch(rf"(?:{kinds})/[a-z0-9][a-z0-9._-]*", name):
         return []
     return [
         (

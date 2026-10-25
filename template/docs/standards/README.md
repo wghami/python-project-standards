@@ -23,6 +23,10 @@ enforces it**. `review` means a human checks it, and the rule is in the PR check
 
 ## Principles
 
+0. **Shift left.** Every rule has a gate, and every gate runs at the **earliest** stage that can
+   run it: in the editor and at commit, then at push, then in CI, with only the slow or external
+   checks left to nightly and weekly jobs. Each README shows this as a generated table, next to
+   badges that report what the gates measured.
 1. **Machines enforce, humans judge.** Anything a tool can check is checked by a tool, locally
    *and* in CI.
 2. **Local hooks are a convenience; CI is the authority.** Hooks can be skipped with

@@ -23,3 +23,4 @@ that was not regenerated, and examples that no longer run. Each has a mechanical
 | DOC-7 | `planning/ROADMAP.md` is updated in the PR that completes a milestone task. | PR checklist |
 | DOC-8 | An accepted ADR is never edited; it is superseded by a new ADR that links back. | review |
 | DOC-9 | Docs are written for a reader who has not seen the code: units, assumptions and *why*. | review |
+| DOC-10 | The README starts with the badges and shows the shift-left gates table. Both are **generated** between `<!-- standards:… -->` markers from the workflows, the hooks and `.copier-answers.yml`, and fail the push when stale; `standards readme --write` refreshes them. Every badge is backed by a gate: status badges by workflows, measured badges by the gates' own reports (CI-10). | `readme` hook (`standards readme`) |

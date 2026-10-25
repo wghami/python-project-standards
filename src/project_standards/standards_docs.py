@@ -12,7 +12,7 @@ from pathlib import Path
 from project_standards.parity import hook_stages
 
 _ROW = re.compile(r"^\|\s*(?P<id>[A-Z][A-Z0-9]*(?:-[A-Z][A-Z0-9]*)*-\d+)\s*\|(?P<rest>.*)$")
-_COMMAND = re.compile(r"\bstandards (?P<cmd>check-[a-z-]+)")
+_COMMAND = re.compile(r"`standards (?P<cmd>[a-z][a-z-]*)")
 
 
 def _cells(rest: str) -> list[str]:

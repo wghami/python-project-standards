@@ -1,6 +1,19 @@
 # [[ project_name ]]
 
+<!-- standards:badges:start -->
+<!-- standards:badges:end -->
+
 [[ description ]]
+
+## Shift left, by design
+
+Every rule in the [engineering standards](docs/standards/README.md) is enforced by a gate, and
+every gate runs **as early as it can**: on your machine before the code leaves it, then again in
+CI, and the slow or external checks on a schedule. The table below is generated from the hook and
+workflow configuration, so it cannot drift from what actually runs.
+
+<!-- standards:gates:start -->
+<!-- standards:gates:end -->
 
 ## Development
 
@@ -9,5 +22,3 @@ uv sync
 uv run pre-commit install
 uv run pytest
 ```
-
-Every change follows the [engineering standards](docs/standards/README.md).

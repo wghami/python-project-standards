@@ -1,0 +1,143 @@
+$ standards  --help
+usage: standards [-h] [--root ROOT]
+                 {check-commit-msg,check-commits,check-pr-title,check-branch-name,check-suppressions,check-version,check-doc-impact,check-hook-parity,check-standards,check-mutation-score,check-template-drift,check-hooks-installed,readme,badge}
+                 ...
+
+``standards``: the command line that hooks and CI call.
+
+positional arguments:
+  {check-commit-msg,check-commits,check-pr-title,check-branch-name,check-suppressions,check-version,check-doc-impact,check-hook-parity,check-standards,check-mutation-score,check-template-drift,check-hooks-installed,readme,badge}
+    check-commit-msg    validate a commit message file
+    check-commits       validate every commit in a range
+    check-pr-title      validate a PR title
+    check-branch-name   validate the branch name
+    check-suppressions  forbid pragmas and reasonless ignores
+    check-version       version comes from tags; tags are published
+    check-doc-impact    docs change with what they describe
+    check-hook-parity   every hook stage also runs in CI
+    check-standards     standards docs are consistent with the tooling
+    check-mutation-score
+                        mutation score gate
+    check-template-drift
+                        project is on the latest standards release
+    check-hooks-installed
+                        git hooks are installed
+    readme              regenerate (or check) README badges and gates
+    badge               write a shields.io badge from a gate's report
+
+options:
+  -h, --help            show this help message and exit
+  --root ROOT           repository root (default: .)
+
+$ standards check-commit-msg --help
+usage: standards check-commit-msg [-h] file
+
+positional arguments:
+  file
+
+options:
+  -h, --help  show this help message and exit
+
+$ standards check-commits --help
+usage: standards check-commits [-h] --range RANGE
+
+options:
+  -h, --help     show this help message and exit
+  --range RANGE
+
+$ standards check-pr-title --help
+usage: standards check-pr-title [-h] title
+
+positional arguments:
+  title
+
+options:
+  -h, --help  show this help message and exit
+
+$ standards check-branch-name --help
+usage: standards check-branch-name [-h] [--name NAME]
+
+options:
+  -h, --help   show this help message and exit
+  --name NAME
+
+$ standards check-suppressions --help
+usage: standards check-suppressions [-h] [paths ...]
+
+positional arguments:
+  paths
+
+options:
+  -h, --help  show this help message and exit
+
+$ standards check-version --help
+usage: standards check-version [-h] [--remote REMOTE] [--released]
+
+options:
+  -h, --help       show this help message and exit
+  --remote REMOTE  also check the latest tag exists on this remote
+  --released       no untagged releasable commit
+
+$ standards check-doc-impact --help
+usage: standards check-doc-impact [-h] [--base BASE]
+
+options:
+  -h, --help   show this help message and exit
+  --base BASE
+
+$ standards check-hook-parity --help
+usage: standards check-hook-parity [-h] [--config CONFIG] [--workflow WORKFLOW]
+
+options:
+  -h, --help           show this help message and exit
+  --config CONFIG
+  --workflow WORKFLOW
+
+$ standards check-standards --help
+usage: standards check-standards [-h] [--docs DOCS] [--config CONFIG]
+
+options:
+  -h, --help       show this help message and exit
+  --docs DOCS
+  --config CONFIG
+
+$ standards check-mutation-score --help
+usage: standards check-mutation-score [-h] --min MIN stats
+
+positional arguments:
+  stats
+
+options:
+  -h, --help  show this help message and exit
+  --min MIN
+
+$ standards check-template-drift --help
+usage: standards check-template-drift [-h] [--answers ANSWERS]
+
+options:
+  -h, --help         show this help message and exit
+  --answers ANSWERS
+
+$ standards check-hooks-installed --help
+usage: standards check-hooks-installed [-h]
+
+options:
+  -h, --help  show this help message and exit
+
+$ standards readme --help
+usage: standards readme [-h] [--write]
+
+options:
+  -h, --help  show this help message and exit
+  --write     rewrite README.md instead of failing when stale
+
+$ standards badge --help
+usage: standards badge [-h] --out OUT {coverage,docstrings,mutation} source
+
+positional arguments:
+  {coverage,docstrings,mutation}
+  source                coverage.xml, interrogate output or mutmut stats
+
+options:
+  -h, --help            show this help message and exit
+  --out OUT             where to write the badge JSON

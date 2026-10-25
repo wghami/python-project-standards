@@ -2,22 +2,25 @@
 
 import re
 from pathlib import Path
-from typing import cast
 
 import yaml
+
+from project_standards._typed import mapping, sequence, strings, text
 
 DEFAULT_STAGE = "pre-commit"
 
 
 def hook_stages(config_text: str) -> dict[str, set[str]]:
     """Map each git-hook stage used in a pre-commit config to the hook ids it runs."""
-    data = cast("dict[str, object]", yaml.safe_load(config_text) or {})
-    defaults = cast("list[str]", data.get("default_stages", [DEFAULT_STAGE]))
+    data = mapping(yaml.safe_load(config_text) or {}, "pre-commit config")
+    defaults = strings(data.get("default_stages", [DEFAULT_STAGE]), "default_stages")
     stages: dict[str, set[str]] = {}
-    for repo in cast("list[dict[str, object]]", data.get("repos", [])):
-        for hook in cast("list[dict[str, object]]", repo.get("hooks", [])):
-            for stage in cast("list[str]", hook.get("stages", defaults)):
-                stages.setdefault(stage, set()).add(cast("str", hook["id"]))
+    for repo in sequence(data.get("repos", []), "repos"):
+        for raw_hook in sequence(mapping(repo, "repo").get("hooks", []), "hooks"):
+            hook = mapping(raw_hook, "hook")
+            hook_id = text(hook.get("id"), "hook id")
+            for stage in strings(hook.get("stages", defaults), f"stages of {hook_id}"):
+                stages.setdefault(stage, set()).add(hook_id)
     return stages
 
 

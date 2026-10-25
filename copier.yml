@@ -22,6 +22,7 @@ _skip_if_exists:
   - planning/SPEC.md
   - planning/ROADMAP.md
   - planning/adr/0001-*.md
+  - planning/standards-feedback.md
   - src/**
   - tests/**
   - scripts/**

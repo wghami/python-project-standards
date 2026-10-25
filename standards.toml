@@ -10,24 +10,69 @@ max_header_length = 72
 allowed = ["main"]
 extra_prefixes = ["dependabot/"]
 
+[readme]
+repository = "wghami/python-project-standards"
+standards_docs = "template/docs/standards"
+
 [doc_impact]
-watched = ["src/**", "template/**", "copier.yml", "pyproject.toml", ".pre-commit-config.yaml", ".github/workflows/**", "standards.toml"]
+watched = ["src/**", "template/**", "copier.yml", "pyproject.toml", ".pre-commit-config.yaml", ".github/**", "standards.toml"]
+
+# Each module is described by its feature page (docs/) and/or by the rule it enforces.
+[[doc_impact.rules]]
+paths = ["src/project_standards/commits.py", "src/project_standards/branches.py"]
+docs = ["docs/03-commits-and-branches.md", "template/docs/standards/02-commits-and-versioning.md"]
 
 [[doc_impact.rules]]
-paths = ["src/**"]
-docs = ["template/docs/standards/**", "README.md"]
+paths = ["src/project_standards/versioning.py"]
+docs = ["docs/04-versioning-and-releases.md", "template/docs/standards/02-commits-and-versioning.md"]
+
+[[doc_impact.rules]]
+paths = ["src/project_standards/suppressions.py"]
+docs = ["docs/05-suppressions.md"]
+
+[[doc_impact.rules]]
+paths = ["src/project_standards/doc_impact.py", "src/project_standards/globs.py"]
+docs = ["docs/06-doc-impact.md"]
+
+[[doc_impact.rules]]
+paths = ["src/project_standards/standards_docs.py", "src/project_standards/parity.py"]
+docs = ["docs/07-standards-consistency.md"]
+
+[[doc_impact.rules]]
+paths = ["src/project_standards/readme.py", "src/project_standards/badges.py"]
+docs = ["docs/08-badges-and-gates.md"]
+
+[[doc_impact.rules]]
+paths = ["src/project_standards/mutation.py"]
+docs = ["docs/09-mutation-testing.md"]
+
+[[doc_impact.rules]]
+paths = ["src/project_standards/drift.py"]
+docs = ["docs/10-template-drift.md"]
+
+[[doc_impact.rules]]
+paths = ["src/project_standards/hooks.py"]
+docs = ["docs/11-git-hooks.md"]
+
+[[doc_impact.rules]]
+paths = ["src/project_standards/config.py", "src/project_standards/_typed.py"]
+docs = ["docs/14-configuration.md"]
+
+[[doc_impact.rules]]
+paths = ["src/project_standards/cli.py", "src/project_standards/__init__.py", "src/project_standards/__main__.py", "src/project_standards/_git.py"]
+docs = ["docs/**", "README.md"]
 
 [[doc_impact.rules]]
 paths = ["template/.pre-commit-config.yaml", ".pre-commit-config.yaml"]
 docs = ["template/docs/standards/08-git-hooks.md"]
 
 [[doc_impact.rules]]
-paths = ["template/.github/workflows/**", ".github/workflows/**"]
-docs = ["template/docs/standards/09-ci-cd.md"]
+paths = ["template/.github/**", ".github/**"]
+docs = ["template/docs/standards/09-ci-cd.md", "docs/12-ci-workflows.md"]
 
 [[doc_impact.rules]]
 paths = ["template/pyproject.toml.jinja", "pyproject.toml"]
-docs = ["template/docs/standards/03-code-quality.md", "template/docs/standards/05-testing.md"]
+docs = ["template/docs/standards/03-code-quality.md", "template/docs/standards/05-testing.md", "docs/**"]
 
 [[doc_impact.rules]]
 paths = ["template/**", "copier.yml", "standards.toml"]
