@@ -55,3 +55,9 @@ def make_repo(path: Path) -> Repo:
 @pytest.fixture
 def repo(tmp_path: Path) -> Repo:
     return make_repo(tmp_path / "repo")
+
+
+@pytest.fixture(autouse=True)
+def _isolated_environment(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Tests never see the CI's own settings (CI sets STANDARDS_BASE_REF for the real repo)."""
+    monkeypatch.delenv("STANDARDS_BASE_REF", raising=False)
