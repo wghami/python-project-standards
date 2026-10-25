@@ -19,7 +19,7 @@ repository = ""                               # "owner/name"; required by `stand
 template_repository = "wghami/python-project-standards"
 badges_branch = "badges"
 standards_docs = "docs/standards"             # where the pyright badge links to
-skip_jobs = ["pre-commit-stage", "pre-push-stage", "release", "pages", "badges", "report"]
+skip_jobs = ["pre-commit-stage", "pre-push-stage", "release", "badges", "report"]
 
 [doc_impact]
 watched = []                                  # globs: changes here need documentation

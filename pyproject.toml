@@ -124,3 +124,6 @@ dev = [
     "types-pyyaml>=6.0.12.20260906",
     "zizmor>=1.31.1",
 ]
+docs = [
+    "mkdocs-material>=9.8.0",
+]

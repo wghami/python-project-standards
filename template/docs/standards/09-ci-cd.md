@@ -2,11 +2,11 @@
 
 | Workflow | Trigger | Jobs |
 |---|---|---|
-| `ci.yml` | PR, push to `main` | `pre-commit-stage` · `pre-push-stage` (tests, coverage, docs, contracts, version) · `commits` (every commit, PR title, branch) · `secrets` (gitleaks over the full history) · `audit` (pip-audit) · `badges` (on `main`) · `release` (on `main`) · `pages` (docs, on `main`) |
+| `ci.yml` | PR, push to `main` | `pre-commit-stage` · `pre-push-stage` (tests, coverage, docs, contracts, version) · `commits` (every commit, PR title, branch) · `secrets` (gitleaks over the full history) · `audit` (pip-audit) · `badges` (on `main`) · `release` (on `main`) · `pages` (deploy **and verify** the docs, on `main`) |
 | `codeql.yml` | PR, push to `main`, weekly | CodeQL for Python and Actions |
 | `scorecard.yml` | push to `main`, weekly, branch-protection changes | OpenSSF Scorecard, published for the badge and uploaded to code scanning |
 | `nightly.yml` | nightly; PRs labelled `mutation` / `perf` | Mutation score (TST-12), performance budgets (TST-11); a scheduled failure opens a `release-blocker` issue |
-| `weekly.yml` | weekly | pip-audit, external links (lychee), template drift (`standards check-template-drift`); a failure opens an issue |
+| `weekly.yml` | weekly | pip-audit, external links (lychee), template drift (`standards check-template-drift`), deployed docs still served; a failure opens an issue |
 
 | ID | Rule | Enforced by |
 |---|---|---|

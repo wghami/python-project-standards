@@ -4,11 +4,11 @@ Rules: CI-1…11, SEC-7…13.
 
 | Workflow | Trigger | Jobs |
 |---|---|---|
-| `ci.yml` | PR, push to `main` | rerun of the pre-commit stage; rerun of the pre-push stage (coverage report uploaded); commits, PR title and branch (PRs only); gitleaks over the full history; pip-audit; on `main`: `badges`, `release`, `pages` |
+| `ci.yml` | PR, push to `main` | rerun of the pre-commit stage; rerun of the pre-push stage (coverage report uploaded); commits, PR title and branch (PRs only); gitleaks over the full history; pip-audit; on `main`: `badges`, `release`, `pages` (deploy, then verify the live site) |
 | `codeql.yml` | PR, push to `main`, weekly | CodeQL for Python and for the workflows themselves |
 | `scorecard.yml` | push to `main`, weekly, branch-protection changes | OpenSSF Scorecard |
 | `nightly.yml` | nightly; PRs labelled `mutation` / `perf` | mutation score, performance budgets; a scheduled failure opens a `release-blocker` |
-| `weekly.yml` | weekly | pip-audit, external links (lychee), template drift; a failure opens an issue |
+| `weekly.yml` | weekly | pip-audit, external links (lychee), template drift, deployed docs still served; a failure opens an issue |
 
 **Conventions in every workflow:**
 

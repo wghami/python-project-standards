@@ -7,7 +7,7 @@ This repository has two halves that ship together:
 - the **`standards` CLI**, which turns those rules into checks that hooks and CI run.
 
 The binding rules themselves live in
-[`template/docs/standards/`](../template/docs/standards/README.md). This folder explains the
+[`template/docs/standards/`](standards/README.md). This folder explains the
 **features** that deliver and enforce them, one feature per page.
 
 ## Features
@@ -28,6 +28,7 @@ The binding rules themselves live in
 | 12 | [CI/CD workflows](12-ci-workflows.md) | Required checks, nightly and weekly gates, releases | — |
 | 13 | [Standards feedback](13-standards-feedback.md) | How friction in a project becomes a better standard | — |
 | 14 | [Configuration reference](14-configuration.md) | Every key of `standards.toml` | — |
+| 15 | [Documentation deployment](15-docs-deployment.md) | Docs built strictly, deployed automatically, verified live | `standards check-site` |
 
 ## The idea in one paragraph
 

@@ -193,3 +193,11 @@ def test_badge_writes_the_endpoint_document(project: Repo, elsewhere: Path) -> N
         "color": "brightgreen",
     }
     assert (project.path / "out" / "b" / "docstrings.json").read_text().endswith("}\n")
+
+
+def test_malformed_yaml_is_reported_not_raised(
+    project: Repo, capsys: pytest.CaptureFixture[str]
+) -> None:
+    project.write(".pre-commit-config.yaml", "repos: [\n")
+    assert run(project, "check-hook-parity") == 1
+    assert capsys.readouterr().err.startswith("✗ ParserError: ")
