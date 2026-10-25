@@ -143,7 +143,7 @@ repos:
         stages: [pre-push]
       - id: readme
         name: README badges and gates table up to date
-        entry: uv run --frozen standards readme
+        entry: uv run --frozen standards readme --write
         language: system
         pass_filenames: false
         always_run: true

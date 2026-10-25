@@ -105,6 +105,7 @@ jobs:
           git init -q -b main
           git config user.name ci && git config user.email ci@example.invalid
           uv lock --quiet && uv sync --quiet
+          uv run standards readme --write
           git add -A && git commit -q --no-verify -m "chore: render from template"
       - name: Run every hook stage on the rendered project
         working-directory: ${{ runner.temp }}/smoke

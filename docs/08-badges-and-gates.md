@@ -11,8 +11,9 @@ Generates two blocks in `README.md`, between marker comments:
 <!-- standards:gates:start -->    …   <!-- standards:gates:end -->
 ```
 
-Without `--write` it only checks: the `readme` pre-push hook fails when a block is stale, so the
-README always reflects the configuration. `[readme] repository = "owner/name"` in
+Without `--write` it only checks. The `readme` pre-push hook runs it **with** `--write`: like a
+formatter, it fixes the README and fails the push because files changed, so a stale README never
+reaches GitHub, and CI (which reruns the hook) fails if one ever does. `[readme] repository = "owner/name"` in
 `standards.toml` is required.
 
 **Badges, in three rows, each one shown only when its source exists:**

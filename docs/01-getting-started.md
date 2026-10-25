@@ -10,8 +10,9 @@ uvx copier copy --trust gh:wghami/python-project-standards my-project
 ```
 
 Copier asks for the project name, package name, description, author, GitHub owner, Python
-version, the allowed commit scopes, and the minimum mutation score. `--trust` lets it run three
-post-render tasks: `git init`, `uv lock`, and `pre-commit install`.
+version, the allowed commit scopes, and the minimum mutation score. `--trust` lets it run four
+post-render tasks: `git init`, `uv lock`, `pre-commit install`, and `standards readme --write`
+(the README badges and gates table).
 
 ## 2. First commit
 
