@@ -78,4 +78,5 @@ _tasks:
   - "[ -d .git ] || git init -q -b main"
   - "uv lock --quiet"
   - "uv run --frozen pre-commit install --install-hooks >/dev/null"
-  - "uv run --frozen standards readme --write"
+  # A project rendered before DOC-10 has no README markers yet: say so, do not abort the update.
+  - "uv run --frozen standards readme --write || echo 'Add the README marker blocks (DOC-10): see docs/08-badges-and-gates.md'"

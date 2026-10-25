@@ -76,7 +76,7 @@ docs = ["template/docs/standards/03-code-quality.md", "template/docs/standards/0
 
 [[doc_impact.rules]]
 paths = ["template/**", "copier.yml", "standards.toml"]
-docs = ["template/docs/standards/**", "README.md"]
+docs = ["template/docs/standards/**", "README.md", "docs/**"]
 
 [[doc_impact.rules]]
 paths = ["mkdocs.yml"]
