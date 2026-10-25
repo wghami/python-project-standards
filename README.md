@@ -1,7 +1,7 @@
 # python-project-standards
 
 <!-- standards:badges:start -->
-[![CI](https://github.com/wghami/python-project-standards/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/wghami/python-project-standards/actions/workflows/ci.yml) [![CodeQL](https://github.com/wghami/python-project-standards/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/wghami/python-project-standards/actions/workflows/codeql.yml) [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/wghami/python-project-standards/badge)](https://scorecard.dev/viewer/?uri=github.com/wghami/python-project-standards) [![Nightly](https://github.com/wghami/python-project-standards/actions/workflows/nightly.yml/badge.svg?event=schedule)](https://github.com/wghami/python-project-standards/actions/workflows/nightly.yml)
+[![CI](https://github.com/wghami/python-project-standards/actions/workflows/ci.yml/badge.svg?branch=main)](https://github.com/wghami/python-project-standards/actions/workflows/ci.yml) [![CodeQL](https://github.com/wghami/python-project-standards/actions/workflows/codeql.yml/badge.svg?branch=main)](https://github.com/wghami/python-project-standards/actions/workflows/codeql.yml) [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/wghami/python-project-standards/badge)](https://scorecard.dev/viewer/?uri=github.com/wghami/python-project-standards) [![Nightly](https://github.com/wghami/python-project-standards/actions/workflows/nightly.yml/badge.svg?event=schedule)](https://github.com/wghami/python-project-standards/actions/workflows/nightly.yml) [![docs](https://img.shields.io/website?url=https%3A%2F%2Fwghami.github.io%2Fpython-project-standards%2F&label=docs)](https://wghami.github.io/python-project-standards/)
 [![coverage](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fwghami%2Fpython-project-standards%2Fbadges%2Fcoverage.json)](https://github.com/wghami/python-project-standards/actions/workflows/ci.yml) [![mutation](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fwghami%2Fpython-project-standards%2Fbadges%2Fmutation.json)](https://github.com/wghami/python-project-standards/actions/workflows/nightly.yml) [![docstrings](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fwghami%2Fpython-project-standards%2Fbadges%2Fdocstrings.json)](https://github.com/wghami/python-project-standards/actions/workflows/ci.yml) [![release](https://img.shields.io/github/v/release/wghami/python-project-standards?sort=semver)](https://github.com/wghami/python-project-standards/releases) [![python](https://img.shields.io/badge/dynamic/toml?url=https%3A%2F%2Fraw.githubusercontent.com%2Fwghami%2Fpython-project-standards%2Fmain%2Fpyproject.toml&query=%24.project%5B%27requires-python%27%5D&label=python&logo=python&logoColor=white)](pyproject.toml) [![license](https://img.shields.io/github/license/wghami/python-project-standards)](LICENSE)
 [![uv](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/uv/main/assets/badge/v0.json)](https://github.com/astral-sh/uv) [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff) [![types: pyright strict](https://img.shields.io/badge/types-pyright%20strict-2a6db2)](template/docs/standards/03-code-quality.md) [![pre-commit](https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit)](.pre-commit-config.yaml) [![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-fe5196?logo=conventionalcommits&logoColor=white)](https://www.conventionalcommits.org) [![Copier](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/copier-org/copier/master/img/badge/badge-grayscale-inverted-border-orange.json)](https://github.com/copier-org/copier)
 <!-- standards:badges:end -->
@@ -24,7 +24,7 @@ The standards follow one principle: every rule has a gate, and every gate runs a
 stage that can run it. This repository is held to its own standards. Its gates:
 
 <!-- standards:gates:start -->
-**28 gates.** 20 run on your machine before code leaves it (`pre-commit` / `pre-push` hooks); CI reruns every one of them, and scheduled jobs add the slow and the external checks.
+**29 gates.** 21 run on your machine before code leaves it (`pre-commit` / `pre-push` hooks); CI reruns every one of them, and scheduled jobs add the slow and the external checks.
 
 | Gate | 💻 commit | 💻 push | ☁️ CI | 🌙 nightly | 📅 weekly |
 |---|:-:|:-:|:-:|:-:|:-:|
@@ -43,6 +43,7 @@ stage that can run it. This repository is held to its own standards. Its gates:
 | tests (100 % line + branch coverage) (`tests`) |  | ✓ | ✓ |  |  |
 | docstring coverage 100 % (`docstrings`) |  | ✓ | ✓ |  |  |
 | bandit (`bandit`) |  | ✓ | ✓ |  |  |
+| docs build (strict) (`docs-build`) |  | ✓ | ✓ |  |  |
 | docs changed with what they describe (`doc-impact`) |  | ✓ | ✓ |  |  |
 | version from tags, tags published (`version-tag`) |  | ✓ | ✓ |  |  |
 | standards consistent with tooling (`standards-docs`) |  | ✓ | ✓ |  |  |
@@ -52,9 +53,9 @@ stage that can run it. This repository is held to its own standards. Its gates:
 | render the template and run its pipeline |  |  | ✓ |  |  |
 | secret scan (full history) |  |  | ✓ |  |  |
 | dependency audit |  |  | ✓ |  |  |
+| publish and verify docs |  |  | ✓ |  |  |
 | CodeQL (Python, Actions) |  |  | ✓ |  | ✓ |
 | mutation score ≥ 90 % |  |  | 🏷️ | ✓ |  |
-| performance budgets |  |  | 🏷️ | ✓ |  |
 | OpenSSF Scorecard |  |  | ✓ |  | ✓ |
 <!-- standards:gates:end -->
 

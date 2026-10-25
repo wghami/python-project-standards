@@ -1,0 +1,66 @@
+site_name: python-project-standards
+site_description: Binding engineering standards for Python projects, and the tooling that enforces them.
+site_url: https://wghami.github.io/python-project-standards/
+repo_url: https://github.com/wghami/python-project-standards
+strict: true
+
+theme:
+  name: material
+  features: [navigation.sections, navigation.top, search.suggest, content.code.copy]
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      toggle: { icon: material/brightness-7, name: Dark mode }
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      toggle: { icon: material/brightness-4, name: Light mode }
+
+validation:
+  nav:
+    omitted_files: warn
+    not_found: warn
+    absolute_links: warn
+  links:
+    not_found: warn
+    anchors: warn
+    absolute_links: warn
+    unrecognized_links: warn
+
+markdown_extensions:
+  - admonition
+  - tables
+  - toc: { permalink: true }
+  - pymdownx.superfences
+
+nav:
+  - Home: README.md
+  - Features:
+      - 01-getting-started.md
+      - 02-template.md
+      - 03-commits-and-branches.md
+      - 04-versioning-and-releases.md
+      - 05-suppressions.md
+      - 06-doc-impact.md
+      - 07-standards-consistency.md
+      - 08-badges-and-gates.md
+      - 09-mutation-testing.md
+      - 10-template-drift.md
+      - 11-git-hooks.md
+      - 12-ci-workflows.md
+      - 13-standards-feedback.md
+      - 14-configuration.md
+      - 15-docs-deployment.md
+  - Standards:
+      - standards/README.md
+      - standards/01-repository-layout.md
+      - standards/02-commits-and-versioning.md
+      - standards/03-code-quality.md
+      - standards/04-architecture.md
+      - standards/05-testing.md
+      - standards/06-documentation.md
+      - standards/07-security.md
+      - standards/08-git-hooks.md
+      - standards/09-ci-cd.md
+      - standards/10-definition-of-done.md
+      - standards/11-keeping-standards-current.md
+      - Project-specific (placeholder): standards/project/README.md

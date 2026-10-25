@@ -25,7 +25,7 @@ reaches GitHub, and CI (which reruns the hook) fails if one ever does. `[readme]
 | Built with | uv, Ruff, pyright strict, pre-commit, Conventional Commits, standards release, Copier | the configuration and `.copier-answers.yml` |
 
 **The gates table** lists every hook (hooks from one external repo are grouped) and every
-workflow job (except reruns and delivery jobs: `[readme] skip_jobs`). Each row shows the earliest
+workflow job (except reruns, the release and the badge publication: `[readme] skip_jobs`). Each row shows the earliest
 stages that run it: 💻 commit, 💻 push, ☁️ CI (🏷️ when only on a PR label), 🌙 nightly, 📅 weekly.
 
 ## `standards badge METRIC SOURCE --out FILE`

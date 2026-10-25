@@ -41,7 +41,6 @@ class Readme:
         "pre-commit-stage",
         "pre-push-stage",
         "release",
-        "pages",
         "badges",
         "report",
     )

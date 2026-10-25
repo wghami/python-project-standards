@@ -15,7 +15,7 @@ repository = "wghami/python-project-standards"
 standards_docs = "template/docs/standards"
 
 [doc_impact]
-watched = ["src/**", "template/**", "copier.yml", "pyproject.toml", ".pre-commit-config.yaml", ".github/**", "standards.toml"]
+watched = ["src/**", "template/**", "copier.yml", "pyproject.toml", ".pre-commit-config.yaml", ".github/**", "standards.toml", "mkdocs.yml"]
 
 # Each module is described by its feature page (docs/) and/or by the rule it enforces.
 [[doc_impact.rules]]
@@ -77,3 +77,11 @@ docs = ["template/docs/standards/03-code-quality.md", "template/docs/standards/0
 [[doc_impact.rules]]
 paths = ["template/**", "copier.yml", "standards.toml"]
 docs = ["template/docs/standards/**", "README.md"]
+
+[[doc_impact.rules]]
+paths = ["mkdocs.yml"]
+docs = ["docs/15-docs-deployment.md", "docs/README.md"]
+
+[[doc_impact.rules]]
+paths = ["src/project_standards/site.py"]
+docs = ["docs/15-docs-deployment.md"]

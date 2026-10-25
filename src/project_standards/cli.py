@@ -7,6 +7,8 @@ import sys
 from collections.abc import Callable, Sequence
 from pathlib import Path
 
+import yaml
+
 from project_standards import (
     badges,
     branches,
@@ -17,6 +19,7 @@ from project_standards import (
     mutation,
     parity,
     readme,
+    site,
     standards_docs,
     suppressions,
     versioning,
@@ -112,6 +115,13 @@ def _badge(args: argparse.Namespace) -> list[str]:
     return []
 
 
+def _site(args: argparse.Namespace) -> list[str]:
+    try:
+        return site.check(args.url, args.commit)
+    except site.SiteError as error:
+        return [str(error)]
+
+
 def _hooks(args: argparse.Namespace) -> list[str]:
     return hooks.check(Git(_root(args)))
 
@@ -157,6 +167,9 @@ def _build() -> tuple[argparse.ArgumentParser, tuple[str, ...]]:
     add("readme", _readme, "regenerate (or check) README badges and gates").add_argument(
         "--write", action="store_true", help="rewrite README.md instead of failing when stale"
     )
+    deployed = add("check-site", _site, "the deployed docs site serves every page of this build")
+    deployed.add_argument("url", help="base URL of the deployed site")
+    deployed.add_argument("--commit", help="the commit that was built (checks build.json)")
     badge = add("badge", _badge, "write a shields.io badge from a gate's report")
     badge.add_argument("metric", choices=["coverage", "docstrings", "mutation"])
     badge.add_argument("source", help="coverage.xml, interrogate output or mutmut stats")
@@ -175,7 +188,7 @@ def main(argv: Sequence[str] | None = None) -> int:
     handler: Handler = args.handler
     try:
         errors = handler(args)
-    except (GitError, OSError, TypeError, ValueError, KeyError) as error:
+    except (GitError, OSError, TypeError, ValueError, KeyError, yaml.YAMLError) as error:
         errors = [f"{type(error).__name__}: {error}"]
     for error in errors:
         sys.stderr.write(f"✗ {error}\n")

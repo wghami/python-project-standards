@@ -107,6 +107,13 @@ repos:
         pass_filenames: false
         always_run: true
         stages: [pre-push]
+      - id: docs-build
+        name: docs build (strict)
+        entry: uv run --frozen mkdocs build --strict --quiet
+        language: system
+        pass_filenames: false
+        always_run: true
+        stages: [pre-push]
       - id: doc-impact
         name: docs changed with what they describe
         entry: uv run --frozen standards check-doc-impact
