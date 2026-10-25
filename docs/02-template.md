@@ -10,7 +10,7 @@ delimiters, so GitHub Actions expressions (`${{ … }}`) pass through untouched.
 |---|---|
 | `docs/standards/*.md` (the generic rules) | `docs/standards/project/` (project rules) |
 | `.pre-commit-config.yaml`, `.github/` (workflows, scripts, PR template), `mkdocs.yml` (project pages need no nav edit) | `README.md` (but its badge and gates blocks are generated, see [08](08-badges-and-gates.md)) |
-| `pyproject.toml` tool configuration, `standards.toml` | `src/`, `tests/`, `scripts/` |
+| `pyproject.toml` tool configuration, `standards.toml` | `src/`, `tests/`, `tools/`, `scripts/`, `notebooks/` |
 | `AGENTS.md`, `CLAUDE.md`, `SECURITY.md`, `LICENSE` | `planning/SPEC.md`, `planning/ROADMAP.md`, ADR 0001, `planning/standards-feedback.md` |
 | | `.importlinter` (the project's own layers) |
 

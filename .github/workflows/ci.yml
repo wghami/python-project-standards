@@ -106,6 +106,8 @@ jobs:
           git config user.name ci && git config user.email ci@example.invalid
           uv lock --quiet && uv sync --quiet
           uv run standards readme --write
+          uv run python "${GITHUB_WORKSPACE}/.github/smoke/add_examples.py" . smoketest
+          uv run standards readme --write
           printf '# Extra rule\n\nA project page outside the nav (DOC-4).\n' > docs/standards/project/extra.md
           printf '\n- [Extra rule](extra.md)\n' >> docs/standards/project/README.md
           git add -A && git commit -q --no-verify -m "chore: render from template"

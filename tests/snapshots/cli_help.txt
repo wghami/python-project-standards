@@ -1,12 +1,12 @@
 $ standards  --help
 usage: standards [-h] [--root ROOT]
-                 {check-commit-msg,check-commits,check-pr-title,check-branch-name,check-suppressions,check-version,check-doc-impact,check-hook-parity,check-standards,check-mutation-score,check-template-drift,check-hooks-installed,readme,check-site,badge}
+                 {check-commit-msg,check-commits,check-pr-title,check-branch-name,check-suppressions,check-version,check-doc-impact,check-hook-parity,check-standards,check-mutation-score,check-template-drift,check-hooks-installed,readme,check-notebooks,check-scripts,check-site,badge}
                  ...
 
 ``standards``: the command line that hooks and CI call.
 
 positional arguments:
-  {check-commit-msg,check-commits,check-pr-title,check-branch-name,check-suppressions,check-version,check-doc-impact,check-hook-parity,check-standards,check-mutation-score,check-template-drift,check-hooks-installed,readme,check-site,badge}
+  {check-commit-msg,check-commits,check-pr-title,check-branch-name,check-suppressions,check-version,check-doc-impact,check-hook-parity,check-standards,check-mutation-score,check-template-drift,check-hooks-installed,readme,check-notebooks,check-scripts,check-site,badge}
     check-commit-msg    validate a commit message file
     check-commits       validate every commit in a range
     check-pr-title      validate a PR title
@@ -23,6 +23,8 @@ positional arguments:
     check-hooks-installed
                         git hooks are installed
     readme              regenerate (or check) README badges and gates
+    check-notebooks     notebooks: one concept each, committed executed
+    check-scripts       user-facing scripts: one shape, each smoke-tested
     check-site          the deployed docs site serves every page of this build
     badge               write a shields.io badge from a gate's report
 
@@ -131,6 +133,19 @@ usage: standards readme [-h] [--write]
 options:
   -h, --help  show this help message and exit
   --write     rewrite README.md instead of failing when stale
+
+$ standards check-notebooks --help
+usage: standards check-notebooks [-h] [--dir DIR]
+
+options:
+  -h, --help  show this help message and exit
+  --dir DIR
+
+$ standards check-scripts --help
+usage: standards check-scripts [-h]
+
+options:
+  -h, --help  show this help message and exit
 
 $ standards check-site --help
 usage: standards check-site [-h] [--commit COMMIT] url

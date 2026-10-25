@@ -17,11 +17,13 @@ from project_standards import (
     drift,
     hooks,
     mutation,
+    notebooks,
     parity,
     readme,
     site,
     standards_docs,
     suppressions,
+    user_scripts,
     versioning,
 )
 from project_standards._git import Git, GitError
@@ -123,6 +125,20 @@ def _site(args: argparse.Namespace) -> list[str]:
         return [str(error)]
 
 
+def _package(root: Path) -> str | None:
+    """The single package under ``src/``, whose private names notebooks must not import."""
+    found = [p.parent.name for p in (root / "src").glob("*/__init__.py")]
+    return found[0] if len(found) == 1 else None
+
+
+def _notebooks(args: argparse.Namespace) -> list[str]:
+    return notebooks.check(_root(args) / args.dir, _package(_root(args)))
+
+
+def _scripts(args: argparse.Namespace) -> list[str]:
+    return user_scripts.check(_root(args))
+
+
 def _hooks(args: argparse.Namespace) -> list[str]:
     return hooks.check(Git(_root(args)))
 
@@ -168,6 +184,10 @@ def _build() -> tuple[argparse.ArgumentParser, tuple[str, ...]]:
     add("readme", _readme, "regenerate (or check) README badges and gates").add_argument(
         "--write", action="store_true", help="rewrite README.md instead of failing when stale"
     )
+    add(
+        "check-notebooks", _notebooks, "notebooks: one concept each, committed executed"
+    ).add_argument("--dir", default="notebooks")
+    add("check-scripts", _scripts, "user-facing scripts: one shape, each smoke-tested")
     deployed = add("check-site", _site, "the deployed docs site serves every page of this build")
     deployed.add_argument("url", help="base URL of the deployed site")
     deployed.add_argument("--commit", help="the commit that was built (checks build.json)")
