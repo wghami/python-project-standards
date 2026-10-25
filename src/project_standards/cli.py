@@ -50,7 +50,8 @@ def _commits(args: argparse.Namespace) -> list[str]:
 
 
 def _pr_title(args: argparse.Namespace) -> list[str]:
-    return [f"PR title: {e}" for e in commits.check_message(args.title, load(_root(args)))]
+    config = load(_root(args))
+    return [f"PR title: {e}" for e in commits.check_message(args.title, config, header_only=True)]
 
 
 def _branch(args: argparse.Namespace) -> list[str]:

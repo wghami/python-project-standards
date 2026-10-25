@@ -13,12 +13,16 @@ commit. It checks:
 - a blank line separates the header from the body;
 - `!` comes with a `BREAKING CHANGE:` footer.
 
+A PR title is checked as a header only: a breaking title (`feat(api)!: …`) needs no footer
+there, because the squash body carries the commits' `BREAKING CHANGE:` footers (BR-4), and each
+commit is checked for it.
+
 `Merge …` and `Revert "…"` messages pass. `fixup!` and `squash!` are accepted locally, so that
 `git commit --fixup` works, but refused in CI.
 
 ```bash
 uv run standards check-commits --range origin/main..HEAD   # every commit of a branch
-uv run standards check-pr-title "feat(api): add simulations"   # the future squash message
+uv run standards check-pr-title "feat(api): add simulations"   # the future squash header
 ```
 
 Every failure explains the rule and how to fix it, for example:
